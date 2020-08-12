@@ -1,0 +1,21 @@
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: sonarqube-fileshare-pvc
+  # namespace: public
+  # Set this annotation to NOT let Kubernetes automatically create
+  # a persistent volume for this volume claim.
+  # annotations:
+  #   volume.beta.kubernetes.io/storage-class: ""
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: azurefile-storage-class
+  resources:
+    requests:
+      storage: 100Gi
+  selector:
+    # To make sure we match the claim with the exact volume, match the label
+    matchLabels:
+      usage: sonarqube-fileshare-volume

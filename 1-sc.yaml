@@ -1,0 +1,11 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: azurefile-storage-class
+provisioner: kubernetes.io/azure-file
+parameters:
+  skuName: Standard_LRS
+  location: australiaeast
+  storageAccount: shaileshsa
+  secretNamespace: datariver
+  secretName: azure-fileshare-credentials

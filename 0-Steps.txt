@@ -1,0 +1,641 @@
+Microsoft Windows [Version 10.0.17763.1339]
+(c) 2018 Microsoft Corporation. All rights reserved.
+
+
+
+C:\WINDOWS\system32>az account --help
+
+Group
+    az account : Manage Azure subscription information.
+
+Subgroups:
+    lock             : Manage Azure subscription level locks.
+    management-group : Manage Azure Management Groups.
+
+Commands:
+    clear            : Clear all subscriptions from the CLI's local cache.
+    get-access-token : Get a token for utilities to access Azure.
+    list             : Get a list of subscriptions for the logged in account.
+    list-locations   : List supported regions for the current subscription.
+    set              : Set a subscription to be the current active subscription.
+    show             : Get the details of a subscription.
+
+
+C:\WINDOWS\system32>az account clear
+
+C:\WINDOWS\system32>az account list
+Please run "az login" to access your accounts.
+[]
+
+C:\WINDOWS\system32>az login
+You have logged in. Now let us find all the subscriptions to which you have access...
+[
+  {
+    "cloudName": "AzureCloud",
+    "id": "c2fe4183-b60b-4531-82e9-15ddc8fca556",
+    "isDefault": true,
+    "name": "EDU-EDU-TEST-01",
+    "state": "Enabled",
+    "tenantId": "63a89af8-95ff-4231-8c87-f709fe8ec920",
+    "user": {
+      "name": "xdmyadavs@educationtestgovtnz.onmicrosoft.com",
+      "type": "user"
+    }
+  }
+]
+
+C:\WINDOWS\system32>
+C:\WINDOWS\system32>
+C:\WINDOWS\system32>az aks get-credentials --resource-group "SONARQUBE-AKS-TESTING" --name sonarqube
+Merged "sonarqube" as current context in C:\Users\YadavS\.kube\config
+
+
+c:\Users\YadavS\Downloads>az network public-ip create --resource-group "MC_SONARQUBE-AKS-TESTING_sonarqube_australiaeast" --name AKS-static-PublicIP --allocation-method static --sku "Standard"
+{
+  "publicIp": {
+    "ddosSettings": null,
+    "dnsSettings": null,
+    "etag": "W/\"4173cc52-4007-418f-90e2-8feb27d8bf5a\"",
+    "id": "/subscriptions/c2fe4183-b60b-4531-82e9-15ddc8fca556/resourceGroups/MC_SONARQUBE-AKS-TESTING_sonarqube_australiaeast/providers/Microsoft.Network/publicIPAddresses/AKS-static-PublicIP",
+    "idleTimeoutInMinutes": 4,
+    "ipAddress": "20.193.59.208",
+    "ipConfiguration": null,
+    "ipTags": [],
+    "location": "australiaeast",
+    "name": "AKS-static-PublicIP",
+    "provisioningState": "Succeeded",
+    "publicIpAddressVersion": "IPv4",
+    "publicIpAllocationMethod": "Static",
+    "publicIpPrefix": null,
+    "resourceGroup": "MC_SONARQUBE-AKS-TESTING_sonarqube_australiaeast",
+    "resourceGuid": "c21a0a7c-c54c-4848-9638-5e8395b7bce2",
+    "sku": {
+      "name": "Standard"
+    },
+    "tags": null,
+    "type": "Microsoft.Network/publicIPAddresses",
+    "zones": null
+  }
+}
+
+
+=======================================================================================================
+FYI: Following doesn't works because Basic SKU is not supported by Kubernetes Services' Loadbalancers
+=======================================================================================================
+C:\WINDOWS\system32>az network public-ip create --resource-group "MC_SONARQUBE-AKS-TESTING_sonarqube_australiaeast" --name AKS-static-PublicIP --allocation-method static --sku "Standard"
+{
+  "publicIp": {
+    "ddosSettings": null,
+    "dnsSettings": null,
+    "etag": "W/\"a88b4a65-dafd-4ded-9d1a-60af951a0a0b\"",
+    "id": "/subscriptions/c2fe4183-b60b-4531-82e9-15ddc8fca556/resourceGroups/MC_SONARQUBE-AKS-TESTING_sonarqube_australiaeast/providers/Microsoft.Network/publicIPAddresses/AKS-static-PublicIP",
+    "idleTimeoutInMinutes": 4,
+    "ipAddress": "23.101.218.125",
+    "ipConfiguration": null,
+    "ipTags": [],
+    "location": "australiaeast",
+    "name": "AKS-static-PublicIP",
+    "provisioningState": "Succeeded",
+    "publicIpAddressVersion": "IPv4",
+    "publicIpAllocationMethod": "Static",
+    "publicIpPrefix": null,
+    "resourceGroup": "MC_SONARQUBE-AKS-TESTING_sonarqube_australiaeast",
+    "resourceGuid": "bdb5eeeb-4681-4cdf-868b-6cee36d47fcf",
+    "sku": {
+      "name": "Basic"
+    },
+    "tags": null,
+    "type": "Microsoft.Network/publicIPAddresses",
+    "zones": null
+  }
+}
+
+C:\WINDOWS\system32>az network public-ip show --resource-group "MC_SONARQUBE-AKS-TESTING_sonarqube_australiaeast" --name AKS-static-PublicIP
+{
+  "ddosSettings": null,
+  "dnsSettings": null,
+  "etag": "W/\"a88b4a65-dafd-4ded-9d1a-60af951a0a0b\"",
+  "id": "/subscriptions/c2fe4183-b60b-4531-82e9-15ddc8fca556/resourceGroups/MC_SONARQUBE-AKS-TESTING_sonarqube_australiaeast/providers/Microsoft.Network/publicIPAddresses/AKS-static-PublicIP",
+  "idleTimeoutInMinutes": 4,
+  "ipAddress": "23.101.218.125",
+  "ipConfiguration": null,
+  "ipTags": [],
+  "location": "australiaeast",
+  "name": "AKS-static-PublicIP",
+  "provisioningState": "Succeeded",
+  "publicIpAddressVersion": "IPv4",
+  "publicIpAllocationMethod": "Static",
+  "publicIpPrefix": null,
+  "resourceGroup": "MC_SONARQUBE-AKS-TESTING_sonarqube_australiaeast",
+  "resourceGuid": "bdb5eeeb-4681-4cdf-868b-6cee36d47fcf",
+  "sku": {
+    "name": "Basic"
+  },
+  "tags": null,
+  "type": "Microsoft.Network/publicIPAddresses",
+  "zones": null
+}
+=======================================================================================================
+
+
+
+c:\Users\YadavS\Downloads>kubectl create namespace datariver
+namespace/datariver created
+
+c:\Users\YadavS\Downloads>kubectl create secret generic azure-fileshare-credentials --from-literal=azurestorageaccountkey=01x6z2ZlBXvWOu7kSKlV1hODZHrx1mrQADREdJ17jmUELfFuSc93xPjd4WcBWbQCwVjWPoWaIhRhk4FtD3+8UA== --from-literal=azurestorageaccountname=shaileshsa --namespace datariver
+secret/azure-fileshare-credentials created
+
+c:\Users\YadavS\Downloads>kubectl get secret --namespace datariver
+NAME                          TYPE                                  DATA   AGE
+azure-fileshare-credentials   Opaque                                2      26s
+default-token-2hqk7           kubernetes.io/service-account-token   3      13m
+
+c:\Users\YadavS\Downloads>kubectl apply -f c:\Users\YadavS\Downloads\jit\Kubernetes\1-sc.yaml
+storageclass.storage.k8s.io/azurefile-storage-class created
+
+c:\Users\YadavS\Downloads>kubectl describe sc azurefile-storage-class
+Name:            azurefile-storage-class
+IsDefaultClass:  No
+Annotations:     kubectl.kubernetes.io/last-applied-configuration={"apiVersion":"storage.k8s.io/v1","kind":"StorageClass","metadata":{"annotations":{},"name":"azurefile-storage-class"},"parameters":{"location":"australiaeast","secretName":"azure-fileshare-credentials","secretNamespace":"datariver","skuName":"Standard_LRS","storageAccount":"shaileshsa"},"provisioner":"kubernetes.io/azure-file"}
+
+Provisioner:           kubernetes.io/azure-file
+Parameters:            location=australiaeast,secretName=azure-fileshare-credentials,secretNamespace=datariver,skuName=Standard_LRS,storageAccount=shaileshsa
+AllowVolumeExpansion:  <unset>
+MountOptions:          <none>
+ReclaimPolicy:         Delete
+VolumeBindingMode:     Immediate
+Events:                <none>
+
+c:\Users\YadavS\Downloads>kubectl apply -f c:\Users\YadavS\Downloads\jit\Kubernetes\2-pv.yaml
+persistentvolume/sonarqube-fileshare-volume created
+
+c:\Users\YadavS\Downloads>kubectl describe pv sonarqube-fileshare-volume
+Name:            sonarqube-fileshare-volume
+Labels:          usage=sonarqube-fileshare-volume
+Annotations:     Finalizers:  [kubernetes.io/pv-protection]
+StorageClass:    azurefile-storage-class
+Status:          Available
+Claim:
+Reclaim Policy:  Retain
+Access Modes:    RWX
+VolumeMode:      Filesystem
+Capacity:        100Gi
+Node Affinity:   <none>
+Message:
+Source:
+    Type:             AzureFile (an Azure File Service mount on the host and bind mount to the pod)
+    SecretName:       azure-fileshare-credentials
+    SecretNamespace:
+    ShareName:        sonarqube-data
+    ReadOnly:         false
+Events:               <none>
+
+
+c:\Users\YadavS\Downloads>kubectl apply -f C:\Users\YadavS\Downloads\jit\Kubernetes\3-pvc.yaml --namespace datariver
+persistentvolumeclaim/sonarqube-fileshare-pvc created
+
+c:\Users\YadavS\Downloads>kubectl describe pvc sonarqube-fileshare-pvc --namespace datariver
+Name:          sonarqube-fileshare-pvc
+Namespace:     datariver
+StorageClass:  azurefile-storage-class
+Status:        Bound
+Volume:        sonarqube-fileshare-volume
+Labels:        <none>
+Annotations:   pv.kubernetes.io/bind-completed: yes
+               pv.kubernetes.io/bound-by-controller: yes
+Finalizers:    [kubernetes.io/pvc-protection]
+Capacity:      100Gi
+Access Modes:  RWX
+VolumeMode:    Filesystem
+Mounted By:    <none>
+Events:        <none>
+
+
+c:\Users\YadavS\Downloads>kubectl apply -f C:\Users\YadavS\Downloads\jit\Kubernetes\4-app.yaml --namespace datariver
+service/moesonarqube-app-lb created
+deployment.apps/moesonarqube-app-deployment created
+
+
+##########################################################
+Public IP or Local IP for Application ?
+##########################################################
+
+WARNING: If the Public IP is "Basic SKU", then you get following Error. To get rid of it, choose "Standard SKU"
+---------------------------------------------------------------------
+c:\Users\YadavS\Downloads>kubectl describe service moesonarqube-app-lb --namespace datariver
+Name:                     moesonarqube-app-lb
+Namespace:                datariver
+Labels:                   <none>
+Annotations:              Selector:  app=moesonarqube-app
+Type:                     LoadBalancer
+IP:                       10.0.101.118
+IP:                       23.101.218.125
+Port:                     <unset>  80/TCP
+TargetPort:               9000/TCP
+NodePort:                 <unset>  32168/TCP
+Endpoints:                <none>
+Session Affinity:         None
+External Traffic Policy:  Cluster
+Events:
+  Type     Reason                      Age               From                  Message
+  ----     ------                      ----              ----                  -------
+  Normal   EnsuringLoadBalancer        4s (x2 over 10s)  service-controller    Ensuring load balancer
+  Warning  CreateOrUpdateLoadBalancer  4s (x2 over 9s)   azure-cloud-provider  Code="PublicIPAndLBSkuDoNotMatch" Message="Standard sku load balancer /subscriptions/c2fe4183-b60b-4531-82e9-15ddc8fca556/resourceGroups/mc_sonarqube-aks-testing_sonarqube_australiaeast/providers/Microsoft.Network/loadBalancers/kubernetes cannot reference Basic sku publicIP /subscriptions/c2fe4183-b60b-4531-82e9-15ddc8fca556/resourceGroups/MC_SONARQUBE-AKS-TESTING_sonarqube_australiaeast/providers/Microsoft.Network/publicIPAddresses/AKS-static-PublicIP." Details=[]
+  Warning  SyncLoadBalancerFailed      4s (x2 over 9s)   service-controller    Error syncing load balancer: failed to ensure load balancer: timed out waiting for the condition
+
+---------------------------------------------------------------------
+
+
+For PUBLIC IP, paste following Code for service defination and replace XXX with the PUBLIC IP of NIC
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: moesonarqube-app-lb
+spec:
+  # type: ClusterIP
+  # Enable following and disable above line, if using nginx-proxy as a front end for this(for example for setting in TLS), since following Static Public IP address
+  # should be associated with ninnx controller instead of this service
+  type: LoadBalancer
+  loadBalancerIP: XXX.XXX.XXX.XXX #For example, "loadBalancerIP: 52.187.195.24"
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 9000
+  selector:
+    app: moesonarqube-app
+
+
+For Local IP/Private IP, paste following Code for service defination
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: moesonarqube-app-lb
+spec:
+  type: ClusterIP
+  # Enable following and disable above line, if using nginx-proxy as a front end for this(for example for setting in TLS), since following Static Public IP address
+  # should be associated with ninnx controller instead of this service
+  #type: LoadBalancer
+  #loadBalancerIP: XXX.XXX.XXX.XXX #For example, "loadBalancerIP: 52.187.195.24"
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 9000
+  selector:
+    app: moesonarqube-app
+
+
+
+
+
+c:\Users\YadavS\Downloads>kubectl describe service moesonarqube-app-lb --namespace datariver
+Name:                     moesonarqube-app-lb
+Namespace:                datariver
+Labels:                   <none>
+Annotations:              Selector:  app=moesonarqube-app
+Type:                     LoadBalancer
+IP:                       10.0.53.190
+IP:                       20.193.59.208
+LoadBalancer Ingress:     20.193.59.208
+Port:                     <unset>  80/TCP
+TargetPort:               9000/TCP
+NodePort:                 <unset>  32646/TCP
+Endpoints:                <none>
+Session Affinity:         None
+External Traffic Policy:  Cluster
+Events:
+  Type    Reason                Age   From                Message
+  ----    ------                ----  ----                -------
+  Normal  EnsuringLoadBalancer  8s    service-controller  Ensuring load balancer
+  Normal  EnsuredLoadBalancer   6s    service-controller  Ensured load balancer
+
+
+
+#################################################################
+  HEALTH CHECK
+#################################################################
+c:\Users\YadavS\Downloads>kubectl get deployments --namespace datariver
+NAME                          READY   UP-TO-DATE   AVAILABLE   AGE
+moesonarqube-app-deployment   0/1     1            0           18s
+
+c:\Users\YadavS\Downloads>kubectl describe deployment moesonarqube-app-deployment --namespace datariver
+Name:                   moesonarqube-app-deployment
+Namespace:              datariver
+CreationTimestamp:      Wed, 12 Aug 2020 14:14:07 +1200
+Labels:                 <none>
+Annotations:            deployment.kubernetes.io/revision: 1
+Selector:               app=moesonarqube-app
+Replicas:               1 desired | 1 updated | 1 total | 1 available | 0 unavailable
+StrategyType:           RollingUpdate
+MinReadySeconds:        5
+RollingUpdateStrategy:  1 max unavailable, 1 max surge
+Pod Template:
+  Labels:  app=moesonarqube-app
+  Init Containers:
+   init-sysctl:
+    Image:      busybox
+    Port:       <none>
+    Host Port:  <none>
+    Command:
+      sysctl
+      -w
+      vm.max_map_count=262144
+    Environment:  <none>
+    Mounts:       <none>
+  Containers:
+   moesonarqube-app:
+    Image:      sonarqube:7.9.1-community
+    Port:       9000/TCP
+    Host Port:  0/TCP
+    Limits:
+      cpu:     500m
+      memory:  3Gi
+    Requests:
+      cpu:        250m
+      memory:     2Gi
+    Environment:  <none>
+    Mounts:
+      /opt/sonarqube/conf from azure-container-volume-reference (rw,path="conf")
+      /opt/sonarqube/data from azure-container-volume-reference (rw,path="data")
+      /opt/sonarqube/extensions from azure-container-volume-reference (rw,path="extensions")
+      /opt/sonarqube/logs from azure-container-volume-reference (rw,path="logs")
+  Volumes:
+   azure-container-volume-reference:
+    Type:       PersistentVolumeClaim (a reference to a PersistentVolumeClaim in the same namespace)
+    ClaimName:  sonarqube-fileshare-pvc
+    ReadOnly:   false
+Conditions:
+  Type           Status  Reason
+  ----           ------  ------
+  Available      True    MinimumReplicasAvailable
+  Progressing    True    NewReplicaSetAvailable
+OldReplicaSets:  moesonarqube-app-deployment-7fd99546c9 (1/1 replicas created)
+NewReplicaSet:   <none>
+Events:
+  Type    Reason             Age   From                   Message
+  ----    ------             ----  ----                   -------
+  Normal  ScalingReplicaSet  46s   deployment-controller  Scaled up replica set moesonarqube-app-deployment-7fd99546c9 to 1
+
+c:\Users\YadavS\Downloads>kubectl get pods --namespace datariver
+NAME                                           READY   STATUS    RESTARTS   AGE
+moesonarqube-app-deployment-7fd99546c9-j4wgw   1/1     Running   0          65s
+
+c:\Users\YadavS\Downloads>kubectl describe pod moesonarqube-app-deployment-7fd99546c9-j4wgw --namespace datariver
+Name:         moesonarqube-app-deployment-7fd99546c9-j4wgw
+Namespace:    datariver
+Priority:     0
+Node:         aks-agentpool-91060391-vmss000000/10.240.0.4
+Start Time:   Wed, 12 Aug 2020 14:14:07 +1200
+Labels:       app=moesonarqube-app
+              pod-template-hash=7fd99546c9
+Annotations:  <none>
+Status:       Running
+IP:           10.244.0.11
+IPs:
+  IP:           10.244.0.11
+Controlled By:  ReplicaSet/moesonarqube-app-deployment-7fd99546c9
+Init Containers:
+  init-sysctl:
+    Container ID:  docker://b198ef16a076ede50af1cc94bc95f3fa40c0b58c81dcdf1979d307e39c2a34f3
+    Image:         busybox
+    Image ID:      docker-pullable://busybox@sha256:4f47c01fa91355af2865ac10fef5bf6ec9c7f42ad2321377c21e844427972977
+    Port:          <none>
+    Host Port:     <none>
+    Command:
+      sysctl
+      -w
+      vm.max_map_count=262144
+    State:          Terminated
+      Reason:       Completed
+      Exit Code:    0
+      Started:      Wed, 12 Aug 2020 14:14:18 +1200
+      Finished:     Wed, 12 Aug 2020 14:14:18 +1200
+    Ready:          True
+    Restart Count:  0
+    Environment:    <none>
+    Mounts:
+      /var/run/secrets/kubernetes.io/serviceaccount from default-token-j6hrp (ro)
+Containers:
+  moesonarqube-app:
+    Container ID:   docker://7832bc623ab996266cd9943ff9d001d12687b64be7fc50db58d560b953d752fd
+    Image:          sonarqube:7.9.1-community
+    Image ID:       docker-pullable://sonarqube@sha256:64d3a0e6fc899542d9171b0a94135ea7c4b51fbb25842ca782baf0de00f66535
+    Port:           9000/TCP
+    Host Port:      0/TCP
+    State:          Running
+      Started:      Wed, 12 Aug 2020 14:14:41 +1200
+    Ready:          True
+    Restart Count:  0
+    Limits:
+      cpu:     500m
+      memory:  3Gi
+    Requests:
+      cpu:        250m
+      memory:     2Gi
+    Environment:  <none>
+    Mounts:
+      /opt/sonarqube/conf from azure-container-volume-reference (rw,path="conf")
+      /opt/sonarqube/data from azure-container-volume-reference (rw,path="data")
+      /opt/sonarqube/extensions from azure-container-volume-reference (rw,path="extensions")
+      /opt/sonarqube/logs from azure-container-volume-reference (rw,path="logs")
+      /var/run/secrets/kubernetes.io/serviceaccount from default-token-j6hrp (ro)
+Conditions:
+  Type              Status
+  Initialized       True
+  Ready             True
+  ContainersReady   True
+  PodScheduled      True
+Volumes:
+  azure-container-volume-reference:
+    Type:       PersistentVolumeClaim (a reference to a PersistentVolumeClaim in the same namespace)
+    ClaimName:  sonarqube-fileshare-pvc
+    ReadOnly:   false
+  default-token-j6hrp:
+    Type:        Secret (a volume populated by a Secret)
+    SecretName:  default-token-j6hrp
+    Optional:    false
+QoS Class:       Burstable
+Node-Selectors:  beta.kubernetes.io/os=linux
+Tolerations:     node.kubernetes.io/not-ready:NoExecute for 300s
+                 node.kubernetes.io/unreachable:NoExecute for 300s
+Events:
+  Type    Reason     Age        From                                        Message
+  ----    ------     ----       ----                                        -------
+  Normal  Scheduled  <unknown>  default-scheduler                           Successfully assigned datariver/moesonarqube-app-deployment-7fd99546c9-j4wgw to aks-agentpool-91060391-vmss000000
+  Normal  Pulling    78s        kubelet, aks-agentpool-91060391-vmss000000  Pulling image "busybox"
+  Normal  Pulled     73s        kubelet, aks-agentpool-91060391-vmss000000  Successfully pulled image "busybox"
+  Normal  Created    73s        kubelet, aks-agentpool-91060391-vmss000000  Created container init-sysctl
+  Normal  Started    73s        kubelet, aks-agentpool-91060391-vmss000000  Started container init-sysctl
+  Normal  Pulling    73s        kubelet, aks-agentpool-91060391-vmss000000  Pulling image "sonarqube:7.9.1-community"
+  Normal  Pulled     57s        kubelet, aks-agentpool-91060391-vmss000000  Successfully pulled image "sonarqube:7.9.1-community"
+  Normal  Created    50s        kubelet, aks-agentpool-91060391-vmss000000  Created container moesonarqube-app
+  Normal  Started    50s        kubelet, aks-agentpool-91060391-vmss000000  Started container moesonarqube-app
+
+c:\Users\YadavS\Downloads>
+
+c:\Users\YadavS\Downloads>kubectl get service moesonarqube-app-lb --namespace datariver
+NAME                  TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
+moesonarqube-app-lb   ClusterIP   10.0.241.7   <none>        80/TCP    3m49s
+
+c:\Users\YadavS\Downloads>kubectl describe service moesonarqube-app-lb --namespace datariver
+Name:              moesonarqube-app-lb
+Namespace:         datariver
+Labels:            <none>
+Annotations:       Selector:  app=moesonarqube-app
+Type:              ClusterIP
+IP:                10.0.241.7
+Port:              <unset>  80/TCP
+TargetPort:        9000/TCP
+Endpoints:         10.244.0.11:9000
+Session Affinity:  None
+Events:            <none>
+
+c:\Users\YadavS\Downloads>kubectl get service moesonarqube-app-lb --namespace datariver
+NAME                  TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
+moesonarqube-app-lb   ClusterIP   10.0.241.7   <none>        80/TCP    4m28s
+
+
+
+
+
+
+
+
+
+
+
+####################################################
+TROUBLESHOOTING
+####################################################
+
+c:\Users\YadavS\Downloads>kubectl describe deployment moesonarqube-app-deployment --namespace datariver
+Name:                   moesonarqube-app-deployment
+Namespace:              datariver
+CreationTimestamp:      Wed, 12 Aug 2020 11:12:57 +1200
+Labels:                 <none>
+Annotations:            deployment.kubernetes.io/revision: 1
+Selector:               app=moesonarqube-app
+Replicas:               1 desired | 1 updated | 1 total | 0 available | 1 unavailable
+StrategyType:           RollingUpdate
+MinReadySeconds:        5
+RollingUpdateStrategy:  1 max unavailable, 1 max surge
+Pod Template:
+  Labels:  app=moesonarqube-app
+  Init Containers:
+   init-sysctl:
+    Image:      busybox
+    Port:       <none>
+    Host Port:  <none>
+    Command:
+      sysctl
+      -w
+      vm.max_map_count=262144
+    Environment:  <none>
+    Mounts:       <none>
+  Containers:
+   moesonarqube-app:
+    Image:      sonarqube:7.9.1-community
+    Port:       9000/TCP
+    Host Port:  0/TCP
+    Limits:
+      cpu:     500m
+      memory:  3Gi
+    Requests:
+      cpu:        250m
+      memory:     2Gi
+    Environment:  <none>
+    Mounts:
+      /opt/sonarqube/conf from azure-container-volume-reference (rw,path="conf")
+      /opt/sonarqube/data from azure-container-volume-reference (rw,path="data")
+      /opt/sonarqube/extensions from azure-container-volume-reference (rw,path="extensions")
+      /opt/sonarqube/logs from azure-container-volume-reference (rw,path="logs")
+  Volumes:
+   azure-container-volume-reference:
+    Type:       PersistentVolumeClaim (a reference to a PersistentVolumeClaim in the same namespace)
+    ClaimName:  sonarqube-fileshare-pvc
+    ReadOnly:   false
+Conditions:
+  Type           Status  Reason
+  ----           ------  ------
+  Available      True    MinimumReplicasAvailable
+  Progressing    True    ReplicaSetUpdated
+OldReplicaSets:  moesonarqube-app-deployment-7fd99546c9 (1/1 replicas created)
+NewReplicaSet:   <none>
+Events:
+  Type    Reason             Age   From                   Message
+  ----    ------             ----  ----                   -------
+  Normal  ScalingReplicaSet  64s   deployment-controller  Scaled up replica set moesonarqube-app-deployment-7fd99546c9 to 1
+
+c:\Users\YadavS\Downloads>
+
+c:\Users\YadavS\Downloads>kubectl get pods --show-labels --namespace datariver
+NAME                                           READY   STATUS    RESTARTS   AGE     LABELS
+moesonarqube-app-deployment-7fd99546c9-jfqzc   0/1     Pending   0          3m32s   app=moesonarqube-app,pod-template-hash=7fd99546c9
+
+c:\Users\YadavS\Downloads>kubectl describe pod moesonarqube-app-deployment-7fd99546c9-jfqzc --namespace datariver
+Name:           moesonarqube-app-deployment-7fd99546c9-jfqzc
+Namespace:      datariver
+Priority:       0
+Node:           <none>
+Labels:         app=moesonarqube-app
+                pod-template-hash=7fd99546c9
+Annotations:    <none>
+Status:         Pending
+IP:
+IPs:            <none>
+Controlled By:  ReplicaSet/moesonarqube-app-deployment-7fd99546c9
+Init Containers:
+  init-sysctl:
+    Image:      busybox
+    Port:       <none>
+    Host Port:  <none>
+    Command:
+      sysctl
+      -w
+      vm.max_map_count=262144
+    Environment:  <none>
+    Mounts:
+      /var/run/secrets/kubernetes.io/serviceaccount from default-token-2hqk7 (ro)
+Containers:
+  moesonarqube-app:
+    Image:      sonarqube:7.9.1-community
+    Port:       9000/TCP
+    Host Port:  0/TCP
+    Limits:
+      cpu:     500m
+      memory:  3Gi
+    Requests:
+      cpu:        250m
+      memory:     2Gi
+    Environment:  <none>
+    Mounts:
+      /opt/sonarqube/conf from azure-container-volume-reference (rw,path="conf")
+      /opt/sonarqube/data from azure-container-volume-reference (rw,path="data")
+      /opt/sonarqube/extensions from azure-container-volume-reference (rw,path="extensions")
+      /opt/sonarqube/logs from azure-container-volume-reference (rw,path="logs")
+      /var/run/secrets/kubernetes.io/serviceaccount from default-token-2hqk7 (ro)
+Conditions:
+  Type           Status
+  PodScheduled   False
+Volumes:
+  azure-container-volume-reference:
+    Type:       PersistentVolumeClaim (a reference to a PersistentVolumeClaim in the same namespace)
+    ClaimName:  sonarqube-fileshare-pvc
+    ReadOnly:   false
+  default-token-2hqk7:
+    Type:        Secret (a volume populated by a Secret)
+    SecretName:  default-token-2hqk7
+    Optional:    false
+QoS Class:       Burstable
+Node-Selectors:  beta.kubernetes.io/os=linux
+Tolerations:     node.kubernetes.io/not-ready:NoExecute for 300s
+                 node.kubernetes.io/unreachable:NoExecute for 300s
+Events:
+  Type     Reason            Age        From               Message
+  ----     ------            ----       ----               -------
+  Warning  FailedScheduling  <unknown>  default-scheduler  persistentvolumeclaim "sonarqube-fileshare-pvc" not found
+  Warning  FailedScheduling  <unknown>  default-scheduler  persistentvolumeclaim "sonarqube-fileshare-pvc" not found
+
+
+
