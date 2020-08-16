@@ -1,0 +1,35 @@
+# https://docs.microsoft.com/en-gb/azure/aks/ingress-own-tls#create-an-ingress-route
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: sonarqube-ingress-rule
+  #namespace: ingress-basic
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+    # Add following to force HTTP(port 80) to HTTPS(port 443) redirect
+    # Source: - https://github.com/kubernetes/ingress-nginx/issues/3654
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    # SonarQube Error resolved:
+    # Error: HttpException: Error 413
+    # 413 Request Entity Too Large
+    # Failed to upload report - HTTP code 413:
+    # source - https://stackoverflow.com/questions/39498386/how-to-resolve-httpexception-error-413-sonarqube
+    nginx.ingress.kubernetes.io/proxy-body-size: "20M"
+spec:
+  tls:
+  - hosts:
+    - codescan.education.govt.nz
+    secretName: certificate
+  rules:
+  - host: codescan.education.govt.nz
+    http:
+      paths:
+      - backend:
+          serviceName: moesonarqube-app-lb
+          servicePort: 80
+        path: /(.*)
+      # - backend:
+      #     serviceName: ingress-demo
+      #     servicePort: 80
+      #   path: /hello-world-two(/|$)(.*)
